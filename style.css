@@ -1,0 +1,15 @@
+#questionFrame{
+    height:200px;
+    width:300px;
+    border: 2px solid;
+    border-color:red;
+    margin:auto;
+}
+
+#resultFrame{
+    height:200px;
+    width:300px;
+    border: 2px solid;
+    border-color:blue;
+    margin:auto;
+}
