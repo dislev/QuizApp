@@ -11,21 +11,24 @@
       <script src="dist/js/bootstrap.min.js"></script>
       <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
       <script type="text/javascript" src="app.js"></script>
+      <script type="text/javascript" src="questions.js"></script>
    </head>
     <body>
-        <h1>New Web Project Page</h1>
+        <h1>Quiz App</h1>
         <div id='questionFrame'>
             <p id='count'></p>
             <p id='question'></p>
             <form id='answerSelection'>
-                <input type="radio" name="answer" id="radio1" value='1'><label for="radio1"></label><br>
-                <input type="radio" name="answer" id="radio2" value='2'><label for="radio2"></label><br>
-                <input type="radio" name="answer" id="radio3" value='3'><label for="radio3"></label><br><br>
+                <input type="radio" name="answer" value='0'><label for="radio1"></label><br>
+                <input type="radio" name="answer" value='1'><label for="radio2"></label><br>
+                <input type="radio" name="answer" value='2'><label for="radio3"></label><br><br>
                 <input type="submit" value="Submit">
             </form>
         </div>
         <div id='resultFrame'>
             <h2></h2>
+            <h3></h3>
+            <button id='retry'>Retry?</button>
         </div>
     </body>
 </html>
