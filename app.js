@@ -2,10 +2,10 @@ $(document).ready(function(){
     
     $('#questionFrame').hide();
     $('#resultFrame').hide();
-    $('h1').hide();
+    $('#header').hide();
     $('#retry').hide();
     
-    $('h1').fadeIn(3000, function() {
+    $('#header').fadeIn(2000, function() {
         populateQuestion();
         $('#questionFrame').show('slide', {direction: 'right'}, 1000);
     });
@@ -24,7 +24,10 @@ $(document).ready(function(){
     }); 
         
     $('#retry').click(function(){
-        location.reload();
+        $('body').fadeOut(2000, function(){
+            location.reload();
+        })
+
     });
 
 });
