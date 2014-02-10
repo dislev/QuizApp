@@ -48,8 +48,6 @@ function populateQuestion(){
         $('#answerSelection input:nth-child(1)').prop('checked', true);
         
         for(var i = 1; i <= 3; i++){
-            var a;
-            a = qaSet.choices[i];
             $('label[for="radio'+ i +'"]').text(qaSet.choices[i-1]);
         }
     }
