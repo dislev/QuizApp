@@ -20,4 +20,4 @@ var questions = [
                 "Thomas Edison"],
         correct:0
     }
-    ];
+];
