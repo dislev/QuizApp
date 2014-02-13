@@ -11,6 +11,7 @@ var init = (function() {
             });
         });
     };
+    
     var onReady = function(){
         initialStates();
         $('#header').fadeIn(1000, function() {
