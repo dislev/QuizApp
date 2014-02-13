@@ -10,46 +10,7 @@ var init = (function() {
                 location.reload();
             });
         });
-<<<<<<< HEAD
-        
-        $(this).show('slide', {direction: 'right'}, 1000);
-    }); 
-        
-    $('#retry').click(function(){
-        $('body').fadeOut(2000, function(){
-            location.reload();
-        })
-
-    });
-
-});
-
-var count = 0;
-var correctAnswers = 0;
-var totalQuestions = 3;
-
-function populateQuestion(){
-    
-    count++;
-    
-    var qaSet = getQuestions();
-    
-    if(count <= totalQuestions){
-        $('#count').html('Question '+ count + ' of ' + totalQuestions);
-        $('#question').html(qaSet.question);
-        $('#answerSelection input:nth-child(1)').prop('checked', true);
-        
-        for(var i = 1; i <= 3; i++){
-            $('label[for="radio'+ i +'"]').text(qaSet.choices[i-1]);
-        }
-    }
-    else{
-        $('#questionFrame').html('<h2>END</h2>');
-        $('#questionFrame').hide('slide', {direction: 'down'}, 2000, function(){
-            populateResults();
-=======
     };
-
     var onReady = function(){
         initialStates();
         $('#header').fadeIn(1000, function() {
@@ -63,7 +24,6 @@ function populateQuestion(){
 
         $('a').click(function(){
             quizLogic.saveAnswerAndHideLeftRight();
->>>>>>> revised
         });
     };
 
