@@ -19,5 +19,12 @@ var questions = [
                 "George Washington",
                 "Thomas Edison"],
         correct:0
+    },
+    {
+        question:"Who is known to not lie?",
+        choices:["Aberaham Lincoln",
+            "George Washington",
+            "Thomas Edison"],
+        correct:0
     }
 ];

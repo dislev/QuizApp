@@ -1,127 +1,118 @@
-$(document).ready(function(){
-    
-    $('#questionFrame').hide();
-    $('#resultFrame').hide();
-    $('#header').hide();
-    $('#retry').hide();
-    
-    $('#header').fadeIn(2000, function() {
-        populateQuestion();
-        $('#questionFrame').show('slide', {direction: 'right'}, 1000);
-    });
-    
-    $('#questionFrame').on('submit',function(e){
-        e.preventDefault();
+var init = (function() {
 
-        var answer = $('#answerSelection input:checked').val();
-        checkAnswer(answer);
-        
-        $(this).hide('slide', {direction: 'left'}, 1000, function(){
-            populateQuestion();
+    var initialStates = function(){
+        $('#header').hide();
+        $('#resultFrame').hide();
+        $('#this-carousel-id').hide();
+
+        $('#retry').click(function(){
+            $('body').fadeOut(1000, function(){
+                location.reload();
+            });
         });
-        
-        $(this).show('slide', {direction: 'right'}, 1000);
-    }); 
-        
-    $('#retry').click(function(){
-        $('body').fadeOut(2000, function(){
-            location.reload();
-        })
+    };
 
-    });
+    var onReady = function(){
+        initialStates();
+        $('#header').fadeIn(1000, function() {
+            $('#this-carousel-id').fadeIn(1000);
+            generateCarousel.generateItems();
 
-});
-
-var count = 0;
-var correctAnswers = 0;
-var totalQuestions = 3;
-
-function populateQuestion(){
-    
-    count++;
-    
-    var qaSet = getQuestions();
-    
-    if(count <= totalQuestions){
-        $('#count').html('Question '+ count + ' of ' + totalQuestions);
-        $('#question').html(qaSet.question);
-        $('#answerSelection input:nth-child(1)').prop('checked', true);
-        
-        for(var i = 1; i <= 3; i++){
-            $('label[for="radio'+ i +'"]').text(qaSet.choices[i-1]);
-        }
-    }
-    else{
-        $('#questionFrame').html('<h2>END</h2>');
-        $('#questionFrame').hide('slide', {direction: 'down'}, 2000, function(){
-            populateResults();
+            $('.item').on( 'click', 'input[name=answer]', function(){
+                $('a').fadeIn(1000);
+            });
         });
-        
-    }
-}
 
-function populateResults(){
-    $('#resultFrame h2').html('SCORE ' + correctAnswers + '/' + totalQuestions);
-    $('#resultFrame h3').html(finalQuote(correctAnswers));
-    
-    $('#resultFrame').show('slide', {direction: 'down'}, 1000, function(){
-        $('#retry').fadeIn(2000);
-    });
+        $('a').click(function(){
+            quizLogic.saveAnswerAndHideLeftRight();
+        });
+    };
 
-}
+    return {
+        onReady: onReady
+    };
 
-function getQuestions(){
-    
-    var qAndAset;
-    
-    switch(count){
-        case 1:
-            qAndAset = questions[0];
-            break;
-        case 2:
-            qAndAset = questions[1];
-            break;
-        case 3:
-            qAndAset = questions[2];
-            break;
-       default:
-            break;
-    }
-    
-    return qAndAset;
-}
+})();
 
-function checkAnswer(answer){
-    
-    if(answer == null){
-        alert('Please enter valid answer');
-    }
-    else{
-        if(answer == questions[count-1].correct){
-            correctAnswers++;
+var generateCarousel = (function() {
+
+    var itemDivString =  " <div class='item'>" +
+                    "<h1></h1>" +
+                    "<h2></h2>" +
+                    "<ul>" +
+                        "<li><input type='radio' name='answer' value='0'/></li>" +
+                        "<li><input type='radio' name='answer' value='1'/></li>" +
+                        "<li><input type='radio' name='answer' value='2'/></li>" +
+                    "</ul>" +
+                "</div>";
+
+    var generateItems = function(){
+        var itemClone;
+
+        for(var i = 0; i < questions.length; i++){
+            itemClone = $(itemDivString).clone();
+            itemClone.attr('id', i);
+            itemClone.find('h1').text('Question ' + (i+1) + ' of ' + questions.length);
+            itemClone.find('h2').text(questions[i].question);
+
+            for(var j = 1; j <= questions[i].choices.length; j++){
+                itemClone.find('li:nth-child('+ j +')').append(questions[i].choices[j-1]);
+            }
+
+            $('.carousel-inner').append(itemClone);
         }
-    }
-}
 
-function finalQuote(correctAnswers){
-    var finalStatement;
-    
-    switch(correctAnswers){
-        case 0:
-            finalStatement = "tough luck...";
-            break;
-        case 1:
-            finalStatement = "maybe next time...";
-            break;
-        case 2:
-            finalStatement = "so close!";
-            break;;
-        case 3:
-            finalStatement = "ALL CORRECT!!!";
-            break;
-        default:
-            break;
-    }
-    
-    return finalStatement;
-}
+        $('.item:nth-child(1)').addClass('active');
+    };
+
+    return {
+        generateItems: generateItems
+    };
+
+})();
+
+var quizLogic = (function() {
+
+    var answerArray = new Array();
+
+    var saveAnswerAndHideLeftRight = function(){
+        saveAnswer($('.active').attr('id'));
+    };
+
+    var saveAnswer =  function(quizNum){
+
+        var input;
+
+            if($('input[name=answer]:checked', '.item').val() != undefined){
+                input = $('input[name=answer]:checked', '.item').val();
+            }
+        answerArray[quizNum] = input;
+        checkCompletion();
+    };
+
+    var checkCompletion = function(){
+        var correctCount = 0;
+
+        if(answerArray.length == questions.length){
+            $('#this-carousel-id').hide();
+
+            for(var i = 0; i < questions.length; i++){
+                if(answerArray[i] == questions[i].correct){
+                    correctCount++;
+                }
+            }
+
+            $('#resultFrame').find('h1').text("Score: "+ correctCount + " / " + questions.length);
+            $('#resultFrame').fadeIn(1000, function(){
+                $('#retry').fadeIn(2000);
+            });
+        }
+    };
+
+    return {
+        saveAnswerAndHideLeftRight: saveAnswerAndHideLeftRight
+    };
+
+})();
+
+$(document).ready(init.onReady);
