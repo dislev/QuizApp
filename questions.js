@@ -1,30 +1,23 @@
 var questions = [
     {
-        question:"Who is the 1st US President?",
-        choices:["Aberaham Lincoln",
-                "George Washington",
-                "Thomas Edison"],
-        correct:1
-    },
-    {
-        question:"Who discovered electricity?",
-        choices:["Aberaham Lincoln",
-                "George Washington",
-                "Thomas Edison"],
+        question:"What state produces a majority of America's roses?",
+        choices:["Washington",
+                "Florida",
+                "California"],
         correct:2
     },
     {
-        question:"Who is known to not lie?",
-        choices:["Aberaham Lincoln",
-                "George Washington",
-                "Thomas Edison"],
+        question:"Cupid was the son of what Roman God",
+        choices:["Venus",
+                "Gaia",
+                "Aphrodite"],
         correct:0
     },
     {
-        question:"Who is known to not lie?",
-        choices:["Aberaham Lincoln",
-            "George Washington",
-            "Thomas Edison"],
-        correct:0
+        question:"What state has a town called Valentine?",
+        choices:["South Caroline",
+                "Nebraska",
+                "Montana"],
+        correct:1
     }
 ];
