@@ -14,7 +14,7 @@ var init = (function() {
     
     var onReady = function(){
         initialStates();
-        $('#header').fadeIn(1000, function() {
+        $('#header').fadeIn(1500, function() {
             $('#this-carousel-id').fadeIn(1000);
             generateCarousel.generateItems();
 
