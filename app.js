@@ -44,6 +44,7 @@ var generateCarousel = (function() {
                         "<li><input type='radio' name='answer' value='1'/></li>" +
                         "<li><input type='radio' name='answer' value='2'/></li>" +
                     "</ul>" +
+                    "<h4></h4>"+
                 "</div>";
 
     var generateItems = function(){
@@ -81,19 +82,38 @@ var quizLogic = (function() {
 
     var saveAnswer =  function(quizNum){
 
-        var input;
+        var input = undefined;
 
-            if($('input[name=answer]:checked', '.item').val() != undefined){
-                input = $('input[name=answer]:checked', '.item').val();
-            }
-        answerArray[quizNum] = input;
-        checkCompletion();
-    };
+        input = $('input[name=answer]:checked', '#' + quizNum).val();
 
-    var checkCompletion = function(){
-        var correctCount = 0;
+        if(typeof input !== 'undefined'){
+            answerArray[quizNum] = input;
+            $('#' + quizNum).find('h4').text('Answered');
+        }
 
         if(answerArray.length == questions.length){
+            checkAnswers(nullValueInArray());
+        }
+    };
+
+    var nullValueInArray = function () {
+
+        var hasNoUndefined = 0;
+
+        for (var i = 0; i < answerArray.length; i++) {
+            if (typeof answerArray[i] == 'undefined') {
+                hasNoUndefined++;
+            }
+        }
+
+        return hasNoUndefined;
+    };
+
+    var checkAnswers = function(nullCount){
+        var correctCount = 0;
+
+        if(nullCount == 0){
+
             $('#this-carousel-id').hide();
 
             for(var i = 0; i < questions.length; i++){
@@ -110,6 +130,7 @@ var quizLogic = (function() {
     };
 
     return {
+        answerArray:answerArray,
         saveAnswerAndHideLeftRight: saveAnswerAndHideLeftRight
     };
 
