@@ -17,13 +17,14 @@ var init = (function() {
         $('#header').fadeIn(1500, function() {
             $('#this-carousel-id').fadeIn(1000);
             generateCarousel.generateItems();
-
-            $('.item').on( 'click', 'input[name=answer]', function(){
-                $('a').fadeIn(1000);
-            });
         });
 
-        $('a').click(function(){
+        $('.carousel-inner').on('change', 'input', function(){
+            quizLogic.saveAnswerAndHideLeftRight();
+            $('#this-carousel-id').carousel('next');
+        });
+
+        $('a').on('click', function(){
             quizLogic.saveAnswerAndHideLeftRight();
         });
     };
@@ -39,11 +40,17 @@ var generateCarousel = (function() {
     var itemDivString =  " <div class='item'>" +
                     "<h1></h1>" +
                     "<h2></h2>" +
-                    "<ul>" +
-                        "<li><input type='radio' name='answer' value='0'/></li>" +
-                        "<li><input type='radio' name='answer' value='1'/></li>" +
-                        "<li><input type='radio' name='answer' value='2'/></li>" +
-                    "</ul>" +
+                    "<div class='radio-control'>" +
+                        "<div class='radio'>" +
+                            "<label id='answer_0'><input type='radio' name='optionsRadios' value='0'></label>" +
+                        "</div>" +
+                        "<div class='radio'>" +
+                            "<label id='answer_1'><input type='radio' name='optionsRadios' value='1'></label>" +
+                        "</div>" +
+                        "<div class='radio'>" +
+                            "<label id='answer_2'><input type='radio' name='optionsRadios' value='2'></label>" +
+                        "</div>" +
+                     "</div>" +
                     "<h4></h4>"+
                 "</div>";
 
@@ -52,12 +59,12 @@ var generateCarousel = (function() {
 
         for(var i = 0; i < questions.length; i++){
             itemClone = $(itemDivString).clone();
-            itemClone.attr('id', i);
+            itemClone.attr('id', "question_" + i);
             itemClone.find('h1').text('Question ' + (i+1) + ' of ' + questions.length);
             itemClone.find('h2').text(questions[i].question);
 
-            for(var j = 1; j <= questions[i].choices.length; j++){
-                itemClone.find('li:nth-child('+ j +')').append(questions[i].choices[j-1]);
+            for(var j = 0; j < questions[i].choices.length; j++){
+                itemClone.find('#answer_'+ j).append(questions[i].choices[j]);
             }
 
             $('.carousel-inner').append(itemClone);
@@ -80,15 +87,16 @@ var quizLogic = (function() {
         saveAnswer($('.active').attr('id'));
     };
 
-    var saveAnswer =  function(quizNum){
+    var saveAnswer =  function(quizId){
 
-        var input = undefined;
+        var input;
+        var quizNum = quizId.substring(9);
 
-        input = $('input[name=answer]:checked', '#' + quizNum).val();
+        input = $('input[name=optionsRadios]:checked', '#' + quizId).val();
 
         if(typeof input !== 'undefined'){
             answerArray[quizNum] = input;
-            $('#' + quizNum).find('h4').text('Answered');
+            $('#' + quizId).find('h4').text('Answered');
         }
 
         if(answerArray.length == questions.length){
