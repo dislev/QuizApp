@@ -1,0 +1,13 @@
+.radio-control{
+    width: 100px;
+    margin: auto;
+}
+
+.radio{
+    width: 300px;
+}
+
+label{
+    float: left;
+    margin: auto;
+}
