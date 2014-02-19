@@ -15,7 +15,7 @@ var questions = [
     },
     {
         question:"What state has a town called Valentine?",
-        choices:["South Caroline",
+        choices:["South Carolina",
                 "Nebraska",
                 "Montana"],
         correct:1
